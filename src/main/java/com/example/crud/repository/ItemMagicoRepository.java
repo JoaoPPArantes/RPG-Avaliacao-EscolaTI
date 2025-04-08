@@ -1,4 +1,7 @@
 package com.example.crud.repository;
 
-public class ItemMagicoRepository {
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ItemMagicoRepository {
 }

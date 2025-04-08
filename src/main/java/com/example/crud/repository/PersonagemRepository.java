@@ -1,4 +1,7 @@
 package com.example.crud.repository;
 
-public class PersonagemRepository {
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface PersonagemRepository {
 }

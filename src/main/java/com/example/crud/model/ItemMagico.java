@@ -2,27 +2,39 @@ package com.example.crud.model;
 
 import com.example.crud.enums.TipoItem;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class ItemMagico {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    String idItem;
+    private Long idItem;
 
-    String nomeItem;
+    @NotBlank(message = "Nome do item é obrigatório")
+    private String nomeItem;
 
-    TipoItem tipoItem;
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Tipo do item é obrigatório")
+    private TipoItem tipoItem;
 
-    int forca;
+    @Min(0)
+    @Max(10)
+    private int forca;
 
-    int defesa;
+    @Min(0)
+    @Max(10)
+    private int defesa;
 
     @ManyToOne
     @JoinColumn(name = "personagem_id")
     private Personagem personagem;
 
-    public String getIdItem() {
+    public Long getIdItem() {
         return idItem;
     }
 
@@ -56,5 +68,13 @@ public class ItemMagico {
 
     public void setDefesa(int defesa) {
         this.defesa = defesa;
+    }
+
+    public Personagem getPersonagem() {
+        return personagem;
+    }
+
+    public void setPersonagem(Personagem personagem) {
+        this.personagem = personagem;
     }
 }

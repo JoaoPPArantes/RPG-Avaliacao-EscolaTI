@@ -3,6 +3,8 @@ package com.example.crud.model;
 
 import com.example.crud.enums.Classe;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PositiveOrZero;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,26 +15,33 @@ public class Personagem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "Nome é obrigatório")
     private String nome;
+
+    @NotBlank(message = "Nome Aventureiro é obrigatório")
     private String nomeAventureiro;
 
     @Enumerated(EnumType.STRING)
     private Classe classe;
 
+    @PositiveOrZero(message = "Level deve ser 0 ou maior")
     private int level;
+
+    @PositiveOrZero
     private int forcaBase;
+
+    @PositiveOrZero
     private int defesaBase;
 
     @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemMagico> itens = new ArrayList<>();
 
+
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNome() {
         return nome;
@@ -90,10 +99,12 @@ public class Personagem {
         this.itens = itens;
     }
 
-    public int getDefesaTotal() {
-        return defesaBase+itens.stream().mapToInt(ItemMagico::getDefesa).sum();
+    // Cálculo total somando os itens mágicos
+    public int getForcaTotal() {
+        return forcaBase + itens.stream().mapToInt(ItemMagico::getForca).sum();
     }
-   public int getForcaTotal() {
-        return forcaBase+itens.stream().mapToInt(ItemMagico::getForca).sum();
-   }
+
+    public int getDefesaTotal() {
+        return defesaBase + itens.stream().mapToInt(ItemMagico::getDefesa).sum();
+    }
 }
